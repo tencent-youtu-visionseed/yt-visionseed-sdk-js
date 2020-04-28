@@ -6,18 +6,22 @@ vs.registerOnResult( (msg) => {
   let count = msg.result.datav2.getResult([YtVisionSeedModel.FACE_DETECTION])
   for (let i = 0; i < count; i++) {
     let line = ''
+    // 获取检测框
     let rect = msg.result.datav2.getResult([YtVisionSeedModel.FACE_DETECTION, i])
     if (rect) {
       line += 'rect: (' + rect.x + ', ' + rect.y + ', ' + rect.w + ', ' + rect.h + ') '
     }
+    // 获取人脸识别结果
     let faceName = msg.result.datav2.getResult([YtVisionSeedModel.FACE_DETECTION, i, YtVisionSeedModel.FACE_RECOGNITION])
     if (faceName) {
       line += 'name: '+faceName.str+' (confidence: '+faceName.conf.toFixed(3)+') '
     }
+    // 获取轨迹ID
     let traceId = msg.result.datav2.getResult([YtVisionSeedModel.FACE_DETECTION, i, YtVisionSeedModel.DETECTION_TRACE])
     if (traceId !== undefined) {
       line += 'traceId: '+traceId+' '
     }
+    // 获取90点关键点
     let shape = msg.result.datav2.getResult([YtVisionSeedModel.FACE_DETECTION, i, YtVisionSeedModel.FACE_LANDMARK])
     if (shape)
     {
